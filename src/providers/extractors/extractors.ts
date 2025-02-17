@@ -14,7 +14,7 @@ import { youtubeExtractor } from './youtube';
 import { closeloadExtractor } from './closeload';
 import { ridooExtractor } from './ridoo';
 
-export async function processPrimewireEmbeds(embeds: Embeds[]) {
+export async function processPrimewireEmbeds(embeds: Embeds[], clientIP: string, clientTime: string) {
     for (const embed of embeds) {
       const { url, embedId } = embed;
       
@@ -23,37 +23,37 @@ export async function processPrimewireEmbeds(embeds: Embeds[]) {
   
         switch (embedId) {
           case 'streamtape':
-            result = await streamtapeExtractor(url);
+            result = await streamtapeExtractor(url, clientIP, clientTime);
             break;
           case 'voe':
-            result = await voeExtractor(url);
+            result = await voeExtractor(url, clientIP, clientTime);
             break;
           case 'streamwish':
-            result = await streamwishExtractor(url);
+            result = await streamwishExtractor(url, clientIP, clientTime);
             break;
           case 'vidmoly':
-            result = await vidmolyExtractor(url);
+            result = await vidmolyExtractor(url, clientIP, clientTime);
             break;
           case 'upstream':
-            result = await upstreamExtractor(url);
+            result = await upstreamExtractor(url, clientIP, clientTime);
             break;
           case 'streamvid':
-            result = await streamvidExtractor(url);
+            result = await streamvidExtractor(url, clientIP, clientTime);
             break;
           case 'dood':
-            result = await doodExtractor(url);
+            result = await doodExtractor(url, clientIP, clientTime);
             break;
           case 'dropload':
-            result = await droploadExtractor(url);
+            result = await droploadExtractor(url, clientIP, clientTime);
             break;
           case 'filelions':
-            result = await filelionsExtractor(url);
+            result = await filelionsExtractor(url, clientIP, clientTime);
             break;
           case 'vtube':
-            result = await vtubeExtractor(url);
+            result = await vtubeExtractor(url, clientIP, clientTime);
             break;
           case 'mixdrop':
-            result = await mixdropExtractor(url);
+            result = await mixdropExtractor(url, clientIP, clientTime);
             break;
           case 'youtube':
             result = await youtubeExtractor(url);

@@ -7,7 +7,7 @@ const mixdropBase = 'https://mixdrop.ps';
 const packedRegex = /(eval\(function\(p,a,c,k,e,d\){.*{}\)\))/;
 const linkRegex = /MDCore\.wurl="(.*?)";/;
 
-export async function mixdropExtractor(embedurl: string) : Promise<Links | null> {
+export async function mixdropExtractor(embedurl: string, clientIP: string, clientTime: string) : Promise<Links | null> {
   let url = embedurl;
   if (embedurl.includes('primewire')) url = await getRedirectedUrl(embedurl);
   

@@ -3,7 +3,7 @@ import { load } from "cheerio";
 import { Header, Links, Source } from "../types";
 import { getRedirectedUrl } from "../redirecturl";
 
-export async function vidmolyExtractor(embedurl: string) : Promise<Links | null> {
+export async function vidmolyExtractor(embedurl: string, clientIP: string, clientTime: string) : Promise<Links | null> {
   let url = embedurl;
   if (embedurl.includes('primewire')) url = await getRedirectedUrl(embedurl);
 

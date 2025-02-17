@@ -6,7 +6,7 @@ import { getRedirectedUrl } from "../redirecturl";
 
 const m3u8Regex = /(http.*?\.m3u8\?[^'"]+)/;
 
-export async function streamwishExtractor(embedurl: string) : Promise<Links | null> {
+export async function streamwishExtractor(embedurl: string, clientIP: string, clientTime: string) : Promise<Links | null> {
     let url = embedurl;
     if (embedurl.includes('primewire')) url = await getRedirectedUrl(embedurl);
 

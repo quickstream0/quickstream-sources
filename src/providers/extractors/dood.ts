@@ -7,7 +7,7 @@ const tokenRegex = /\?token=([^&]+)&expiry=/;
 const pathRegex = /\$\.get\('\/pass_md5([^']+)/;
 const thumbnailRegex = /thumbnails:\s\{\s*vtt:\s'([^']*)'/;
 
-export async function doodExtractor(embedurl: string) : Promise<Links | null> {
+export async function doodExtractor(embedurl: string, clientIP: string, clientTime: string) : Promise<Links | null> {
   let url = embedurl;
   if (embedurl.includes('primewire')) url = await getRedirectedUrl(embedurl);
   

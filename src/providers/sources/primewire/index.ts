@@ -11,7 +11,8 @@ import { processPrimewireEmbeds } from '../../extractors/extractors';
 // voe, filelions, streamvid, upstream, streamtape
 
 const defaultPriority = ['streamwish', 'vtube', 'vidmoly', 'streamtape', 'voe', 'filelions', 'dropload', 'streamvid', 'upstream'];
-const defaultExclusions = ['vidmoly', 'dropload', 'dood', 'voe', 'filelions', 'streamvid', 'upstream', 'streamtape', 'vtube'];
+// const defaultExclusions = ['vidmoly', 'dropload', 'dood', 'voe', 'filelions', 'streamvid', 'upstream', 'streamtape', 'vtube'];
+const defaultExclusions = ['vidmoly', 'dropload', 'dood'];
 
 function rearrangeEmbeds(embeds: { url: string; embedId: string; }[], clientPriority: string[] = [], clientExclusions: string[] = []) {
   // Combine default and client exclusions
@@ -115,7 +116,7 @@ async function search(imdbId: string) {
   }
 }
 
-export async function getMovieLink(media: MovieMedia, clientPriority: string[] = [], clientExclusions: string[] = []) {
+export async function getMovieLink(media: MovieMedia, clientIP: string = "", clientTime: string = "", clientPriority: string[] = [], clientExclusions: string[] = []) {
   try {
     if (!media.imdbId) throw new Error('No imdbId provided');
 
@@ -127,7 +128,7 @@ export async function getMovieLink(media: MovieMedia, clientPriority: string[] =
 
     let streams;
 
-    await processPrimewireEmbeds(embeds)
+    await processPrimewireEmbeds(embeds, clientIP, clientTime)
       .then(result => streams = result)
       .catch(error => console.error("Failed to process embeds:", error));
 
@@ -139,7 +140,7 @@ export async function getMovieLink(media: MovieMedia, clientPriority: string[] =
   }  
 }
 
-export async function getTvLink(media: TvMedia, clientPriority: string[] = [], clientExclusions: string[] = []) {
+export async function getTvLink(media: TvMedia, clientIP: string = "", clientTime: string = "", clientPriority: string[] = [], clientExclusions: string[] = []) {
   try {
     if (!media.imdbId) throw new Error('No imdbId provided');
 
@@ -160,7 +161,7 @@ export async function getTvLink(media: TvMedia, clientPriority: string[] = [], c
 
     let streams;
 
-    await processPrimewireEmbeds(embeds)
+    await processPrimewireEmbeds(embeds, clientIP, clientTime)
       .then(result => streams = result)
       .catch(error => console.error("Failed to process embeds:", error));
 

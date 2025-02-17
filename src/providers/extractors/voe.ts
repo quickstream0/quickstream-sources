@@ -3,7 +3,8 @@ import { load } from "cheerio";
 import { Header, Links, Source } from "../types";
 import { getRedirectedUrl, getFinalRedirectedUrl } from "../redirecturl";
 
-export async function voeExtractor(embedurl: string) : Promise<Links | null> {
+export async function voeExtractor(embedurl: string, clientIP: string, clientTime: string) : Promise<Links | null> {
+
   let url = embedurl;
   if (embedurl.includes('primewire')) url = await getRedirectedUrl(embedurl);
   // redirecting for second time
@@ -11,7 +12,15 @@ export async function voeExtractor(embedurl: string) : Promise<Links | null> {
   
   try {
     // Fetch the page content from the provided URL
-    const response = await axios.get(url);
+    const response = await axios.get(
+      url, 
+      { 
+        headers: {
+          "X-Client-Time": clientTime,
+          "X-Client-IP": clientIP
+        } 
+      }
+    );
 
     // Load the HTML into Cheerio to easily traverse the DOM
     const $ = load(response.data);

@@ -3,12 +3,20 @@ import { load } from "cheerio";
 import { Header, Links, Source } from "../types";
 import { getRedirectedUrl } from "../redirecturl";
 
-export async function streamtapeExtractor(embedurl: string) : Promise<Links | null> {
+export async function streamtapeExtractor(embedurl: string, clientIP: string, clientTime: string) : Promise<Links | null> {
   let url = embedurl;
   if (embedurl.includes('primewire')) url = await getRedirectedUrl(embedurl);
 
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(
+      url, 
+      { 
+        headers: {
+          "X-Client-Time": clientTime,
+          "X-Client-IP": clientIP
+        } 
+      }
+    );
     const embed = response.data;
     const match = embed.match(/robotlink'\).innerHTML = (.*)'/);
     if (!match) throw new Error('No match found');

@@ -15,6 +15,8 @@ const routes = async (fastify: FastifyInstance) => {
     fastify.get("/movie", async (request, response) => {
         const imdbId = (request.query as { imdbId: string }).imdbId;
         const servers = (request.query as { servers: string}).servers;
+        const clientIP = (request.query as { clientIP: string }).clientIP;
+        const clientTime = (request.query as { clientTime: string}).clientTime;
 
         if (typeof imdbId === "undefined")
             return response
@@ -31,7 +33,7 @@ const routes = async (fastify: FastifyInstance) => {
             imdbId: imdbId,
         };
 
-        const links = await getMovieLink(media, clientPriority);
+        const links = await getMovieLink(media, clientIP, clientTime, clientPriority);
         if (links) {
             response.status(200).send(links);
         } else {
@@ -46,6 +48,8 @@ const routes = async (fastify: FastifyInstance) => {
         const season = (request.query as { season: number }).season ?? 1;
         const episode = (request.query as { episode: number }).episode ?? 1;
         const servers = (request.query as { servers: string}).servers;
+        const clientIP = (request.query as { clientIP: string }).clientIP;
+        const clientTime = (request.query as { clientTime: string}).clientTime;
 
         if (typeof imdbId === "undefined")
             return response
@@ -64,7 +68,7 @@ const routes = async (fastify: FastifyInstance) => {
             episodeNumber: episode,
         };
 
-        const links = await getTvLink(media, clientPriority);
+        const links = await getTvLink(media, clientIP, clientTime, clientPriority);
         if (links) {
             response.status(200).send(links);
         } else {

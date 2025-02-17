@@ -5,12 +5,20 @@ import { getRedirectedUrl } from '../redirecturl';
 const packedRegex = /(eval\(function\(p,a,c,k,e,d\).*\)\)\))/;
 const linkRegex = /src:"(https:\/\/[^"]+)"/;
 
-export async function streamvidExtractor(embedurl: string) : Promise<Links | null> {
+export async function streamvidExtractor(embedurl: string, clientIP: string, clientTime: string) : Promise<Links | null> {
   let url = embedurl;
   if (embedurl.includes('primewire')) url = await getRedirectedUrl(embedurl);
   
   try {
-    const response = await axios.get(embedurl);
+    const response = await axios.get(
+      embedurl, 
+      { 
+        headers: {
+          "X-Client-Time": clientTime,
+          "X-Client-IP": clientIP
+        } 
+      }
+    );
     const data = response.data;
     const packed = data.match(packedRegex);
     if (!packed) throw new Error('streamvid packed not found');

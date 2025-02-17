@@ -7,7 +7,7 @@ import { load } from 'cheerio';
 const m3u8Regex = /file:"(.*?)"/g;
 const tracksRegex = /\{file:"([^"]+)",kind:"thumbnails"\}/g;
 
-export async function droploadExtractor(embedurl: string) : Promise<Links | null> {
+export async function droploadExtractor(embedurl: string, clientIP: string, clientTime: string) : Promise<Links | null> {
   let url = embedurl;
   if (embedurl.includes('primewire')) url = await getRedirectedUrl(embedurl);
 

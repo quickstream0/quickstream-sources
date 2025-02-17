@@ -7,12 +7,20 @@ import { getRedirectedUrl } from '../redirecturl';
 const packedRegex = /(eval\(function\(p,a,c,k,e,d\).*\)\)\))/;
 const linkRegex = /sources:\[{file:"(.*?)"/;
 
-export async function upstreamExtractor(embedurl: string) : Promise<Links | null> {
+export async function upstreamExtractor(embedurl: string, clientIP: string, clientTime: string) : Promise<Links | null> {
   let url = embedurl;
   if (embedurl.includes('primewire')) url = await getRedirectedUrl(embedurl);
   
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(
+      url, 
+      { 
+        headers: {
+          "X-Client-Time": clientTime,
+          "X-Client-IP": clientIP
+        } 
+      }
+    );
     const data = response.data;
     const packed = data.match(packedRegex);
 

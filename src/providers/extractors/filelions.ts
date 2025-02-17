@@ -8,13 +8,21 @@ import { getRedirectedUrl } from "../redirecturl";
 const m3u8Regex = /file: ?"(http.*?)"/;
 const tracksRegex = /\{file:\s"([^"]+)",\skind:\s"thumbnails"\}/g;
 
-export async function filelionsExtractor(embedurl: string) : Promise<Links | null> {
+export async function filelionsExtractor(embedurl: string, clientIP: string, clientTime: string) : Promise<Links | null> {
   let url = embedurl;
   if (embedurl.includes('primewire')) url = await getRedirectedUrl(embedurl);
 
   try {
     // Fetch the page content
-    const response = await axios.get(url);
+    const response = await axios.get(
+      url, 
+      { 
+         headers: {
+          "X-Client-Time": clientTime,
+          "X-Client-IP": clientIP
+        } 
+      }
+    );
     const html = response.data;
 
     const $ = load(html);

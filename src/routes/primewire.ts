@@ -39,8 +39,6 @@ const routes = async (fastify: FastifyInstance) => {
         } else {
             response.status(500).send({message: "Unknown error occured. Could not fetch links"});
         }
-        // const resp = await axios.get<string>('https://premiumembeding.cloud/v2/embed-4/k3PBOknU8xKp', { headers: { 'Referer': `https://bingewatch.to/` } });
-        // console.log(resp);
     });
 
     fastify.get("/tv", async (request, response) => {

@@ -12,7 +12,8 @@ import { processPrimewireEmbeds } from '../../extractors/extractors';
 
 const defaultPriority = ['streamwish', 'vtube', 'vidmoly', 'streamtape', 'voe', 'filelions', 'dropload', 'streamvid', 'upstream'];
 // const defaultExclusions = ['vidmoly', 'dropload', 'dood', 'voe', 'filelions', 'streamvid', 'upstream', 'streamtape', 'vtube'];
-const defaultExclusions = ['vidmoly', 'dropload', 'dood'];
+// const defaultExclusions = ['vidmoly', 'dropload', 'dood'];
+const defaultExclusions: string[] = [];
 
 function rearrangeEmbeds(embeds: { url: string; embedId: string; }[], clientPriority: string[] = [], clientExclusions: string[] = []) {
   // Combine default and client exclusions

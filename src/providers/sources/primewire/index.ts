@@ -116,7 +116,7 @@ async function search(imdbId: string) {
   }
 }
 
-export async function getMovieLink(media: MovieMedia, clientIP: string = "", clientTime: string = "", clientPriority: string[] = [], clientExclusions: string[] = []) {
+export async function getMovieLink(media: MovieMedia, embed: boolean = false, clientIP: string = "", clientTime: string = "", clientPriority: string[] = [], clientExclusions: string[] = []) {
   try {
     if (!media.imdbId) throw new Error('No imdbId provided');
 
@@ -125,6 +125,8 @@ export async function getMovieLink(media: MovieMedia, clientIP: string = "", cli
 
     const { data: moviePageHtml } = await axios.get(`${primewireBase}/movie/${searchResult.id}`);
     const embeds = await getStreams(moviePageHtml, clientPriority, clientExclusions);
+
+    if (embed) return embeds;
 
     let streams;
 
@@ -140,7 +142,7 @@ export async function getMovieLink(media: MovieMedia, clientIP: string = "", cli
   }  
 }
 
-export async function getTvLink(media: TvMedia, clientIP: string = "", clientTime: string = "", clientPriority: string[] = [], clientExclusions: string[] = []) {
+export async function getTvLink(media: TvMedia, embed: boolean = false, clientIP: string = "", clientTime: string = "", clientPriority: string[] = [], clientExclusions: string[] = []) {
   try {
     if (!media.imdbId) throw new Error('No imdbId provided');
 
@@ -158,6 +160,8 @@ export async function getTvLink(media: TvMedia, clientIP: string = "", clientTim
 
     const { data: episodePageHtml } = await axios.get(`${primewireBase}${episodeLink}`);
     const embeds = await getStreams(episodePageHtml, clientPriority, clientExclusions);
+
+    if (embed) return embeds;
 
     let streams;
 

@@ -15,6 +15,7 @@ const routes = async (fastify: FastifyInstance) => {
     fastify.get("/movie", async (request, response) => {
         const imdbId = (request.query as { imdbId: string }).imdbId;
         const servers = (request.query as { servers: string}).servers;
+        const embed = (request.query as { embed: string}).embed;
         const clientIP = (request.query as { clientIP: string }).clientIP;
         const clientTime = (request.query as { clientTime: string}).clientTime;
 
@@ -33,7 +34,13 @@ const routes = async (fastify: FastifyInstance) => {
             imdbId: imdbId,
         };
 
-        const links = await getMovieLink(media, clientIP, clientTime, clientPriority);
+        var links;
+
+        if (typeof embed !== "undefined" && embed === "true") {
+            links = await getMovieLink(media, true, clientIP, clientTime, clientPriority);
+        } else {
+            links = await getMovieLink(media, false, clientIP, clientTime, clientPriority);
+        }
         if (links) {
             response.status(200).send(links);
         } else {
@@ -46,6 +53,7 @@ const routes = async (fastify: FastifyInstance) => {
         const season = (request.query as { season: number }).season ?? 1;
         const episode = (request.query as { episode: number }).episode ?? 1;
         const servers = (request.query as { servers: string}).servers;
+        const embed = (request.query as { embed: string}).embed;
         const clientIP = (request.query as { clientIP: string }).clientIP;
         const clientTime = (request.query as { clientTime: string}).clientTime;
 
@@ -66,7 +74,13 @@ const routes = async (fastify: FastifyInstance) => {
             episodeNumber: episode,
         };
 
-        const links = await getTvLink(media, clientIP, clientTime, clientPriority);
+        var links;
+
+        if (typeof embed !== "undefined" && embed === "true") {
+            links = await getTvLink(media, true, clientIP, clientTime, clientPriority);
+        } else {
+            links = await getTvLink(media, false, clientIP, clientTime, clientPriority);
+        }
         if (links) {
             response.status(200).send(links);
         } else {

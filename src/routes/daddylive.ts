@@ -16,7 +16,7 @@ const routes = async (fastify: FastifyInstance) => {
         if (channels) {
             rp.status(200).send({channels: channels});
         } else {
-            rp.status(500).send({message: "Unknown error occured. Could not fetch channels"});
+            rp.status(500).send({"message": "Unknown error occured. Could not fetch channels"});
         }
     });
 
@@ -25,7 +25,7 @@ const routes = async (fastify: FastifyInstance) => {
         if (events) {
             rp.status(200).send(events);
         } else {
-            rp.status(500).send({message: "Unknown error occured. Could not fetch events"});
+            rp.status(500).send({"message": "Unknown error occured. Could not fetch events"});
         }
     });
 };

@@ -21,7 +21,7 @@ const routes = async (fastify: FastifyInstance) => {
         if (typeof imdbId === "undefined")
             return response
                 .status(400)
-                .send({ message: "imdb id is required" });
+                .send({ "message": "imdb id is required" });
 
         let clientPriority: string[] | undefined = [];
 
@@ -37,7 +37,7 @@ const routes = async (fastify: FastifyInstance) => {
         if (links) {
             response.status(200).send(links);
         } else {
-            response.status(500).send({message: "Unknown error occured. Could not fetch links"});
+            response.status(500).send({"message": "Unknown error occured. Could not fetch links"});
         }
     });
 
@@ -52,7 +52,7 @@ const routes = async (fastify: FastifyInstance) => {
         if (typeof imdbId === "undefined")
             return response
                 .status(400)
-                .send({ message: "IMDB id is required" });
+                .send({ "message": "IMDB id is required" });
 
         let clientPriority: string[] | undefined = [];
 
@@ -70,7 +70,7 @@ const routes = async (fastify: FastifyInstance) => {
         if (links) {
             response.status(200).send(links);
         } else {
-            response.status(500).send({message: "Unknown error occured. Could not fetch links"});
+            response.status(500).send({"message": "Unknown error occured. Could not fetch links"});
         }
     });
 };

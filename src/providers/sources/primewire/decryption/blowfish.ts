@@ -245,6 +245,7 @@ class Blowfish {
         s += String.fromCharCode(r);
       }
     }
+    console.log(s);
     return s;
   }
 }
@@ -253,6 +254,7 @@ export function getLinks(encryptedInput: string) {
   const key = encryptedInput.slice(-10);
   const data = encryptedInput.slice(0, -10);
   const cipher = new Blowfish(key);
+  // console.log(cipher);
   const decryptedData = cipher.decrypt(cipher.base64(data)).match(/.{1,5}/g);
 
   if (!decryptedData) {

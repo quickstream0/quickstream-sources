@@ -6,3 +6,4 @@ if (!process.env.DADDYLIVE_URL) {
 }
 
 export const daddyliveBase = process.env.DADDYLIVE_URL || '';
+export const daddyServerUrl = process.env.SERVER_URL || '';

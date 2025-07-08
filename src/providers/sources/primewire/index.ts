@@ -10,9 +10,9 @@ import { processPrimewireEmbeds } from '../../extractors/extractors';
 // vidmoly, dropload [403]
 // voe, filelions, streamvid, upstream, streamtape
 
-const defaultPriority = ['streamwish', 'vtube', 'vidmoly', 'streamtape', 'voe', 'filelions', 'dropload', 'streamvid', 'upstream'];
+const defaultPriority = ['mixdrop', 'streamwish', 'vtube', 'vidmoly', 'streamtape', 'voe', 'filelions', 'dropload', 'streamvid', 'upstream'];
 // const defaultExclusions = ['vidmoly', 'dropload', 'dood', 'voe', 'filelions', 'streamvid', 'upstream', 'streamtape', 'vtube'];
-// const defaultExclusions = ['vidmoly', 'dropload', 'dood'];
+// const defaultExclusions = ['vidmoly', 'dropload'];
 const defaultExclusions: string[] = [];
 
 function rearrangeEmbeds(embeds: { url: string; embedId: string; }[], clientPriority: string[] = [], clientExclusions: string[] = []) {
@@ -25,9 +25,9 @@ function rearrangeEmbeds(embeds: { url: string; embedId: string; }[], clientPrio
   // Sort remaining embeds by client or default priority
   const clientServers = clientPriority.length > 0 ? clientPriority : defaultPriority;
   const sortedEmbeds = filteredEmbeds.sort((a, b) => {
-      const aIndex = clientServers.indexOf(a.embedId);
-      const bIndex = clientServers.indexOf(b.embedId);
-      return (aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex) - (bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex);
+    const aIndex = clientServers.indexOf(a.embedId);
+    const bIndex = clientServers.indexOf(b.embedId);
+    return (aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex) - (bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex);
   });
 
   return sortedEmbeds;
@@ -107,13 +107,13 @@ async function getStreams(titlePageHtml: string, clientPriority: string[] = [], 
 
 async function search(imdbId: string) {
   try {
-      const { data } = await axios.get(`${primewireBase}/api/v1/show/`, {
-          params: { key: primewireApiKey, imdb_id: imdbId },
-      });
-      return data;
+    const { data } = await axios.get(`${primewireBase}/api/v1/show/`, {
+      params: { key: primewireApiKey, imdb_id: imdbId },
+    });
+    return data;
   } catch (error) {
-      console.error(`Failed to fetch data for IMDb ID ${imdbId}:`, error);
-      throw new Error('Search failed');
+    console.error(`Failed to fetch data for IMDb ID ${imdbId}:`, error);
+    throw new Error('Search failed');
   }
 }
 
@@ -140,7 +140,7 @@ export async function getMovieLink(media: MovieMedia, embed: boolean = false, cl
   } catch (error) {
     console.error('Failed to fetch streams: ', error);
     throw error;
-  }  
+  }
 }
 
 export async function getTvLink(media: TvMedia, embed: boolean = false, clientIP: string = "", clientTime: string = "", clientPriority: string[] = [], clientExclusions: string[] = []) {
@@ -153,9 +153,9 @@ export async function getTvLink(media: TvMedia, embed: boolean = false, clientIP
     const { data: seasonPageHtml } = await axios.get(`${primewireBase}/tv/${searchResult.id}`);
     const seasonPage = load(seasonPageHtml);
     const episodeLink = seasonPage(`.show_season[data-id='${media.seasonNumber}'] > div > a`)
-        .toArray()
-        .find((link) => link.attribs.href.includes(`-episode-${media.episodeNumber}`))
-        ?.attribs.href;
+      .toArray()
+      .find((link) => link.attribs.href.includes(`-episode-${media.episodeNumber}`))
+      ?.attribs.href;
 
     if (!episodeLink) throw new NotFoundError('No episode links found');
 

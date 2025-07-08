@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import daddylive from "./routes/daddylive";
 import primewire from "./routes/primewire";
 import ridomovies from "./routes/ridomovies";
+import vidsrc from "./routes/vidsrc";
+import daddyserver from "./routes/daddyserver";
 
 dotenv.config();
 
@@ -24,6 +26,8 @@ async function startServer() {
     await fastify.register(daddylive, { prefix: "/daddylive" });
     await fastify.register(primewire, { prefix: "/primewire" });
     await fastify.register(ridomovies, { prefix: "/ridomovies" });
+    await fastify.register(vidsrc, { prefix: "/vidsrc" });
+    await fastify.register(daddyserver, { prefix: "/server-url" });
 
     try {
         fastify.get("/", async (_, rp) => {
